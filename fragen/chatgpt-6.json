@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "source": "einfuehrungsheft.pdf",
+    "created_by": "ChatGPT",
+    "creation_date": "2025-03-16",
+    "topics": ["Erziehung im Kontext der Postmoderne"]
+  },
+  "questions": [
+    {
+      "id": "q052",
+      "type": "multiple_choice",
+      "difficulty": "leicht",
+      "topics": ["Individualisierung und Pluralisierung von Erziehung"],
+      "question": "Was bedeutet 'Individualisierung' im Kontext moderner Erziehung?",
+      "options": [
+        "Die zunehmende Bedeutung individueller Bildungswege und Selbstbestimmung.",
+        "Die vollständige Abschaffung gemeinsamer Bildungsstandards.",
+        "Die Isolation von Lernenden in digitalen Lernumgebungen.",
+        "Die Standardisierung aller Bildungsprozesse."
+      ],
+      "correct_answer": 0,
+      "explanation": "Individualisierung beschreibt die zunehmende Berücksichtigung individueller Bildungswege und Selbstbestimmung in der Erziehung.",
+      "source_reference": "einfuehrungsheft.pdf, S. 15"
+    },
+    {
+      "id": "q053",
+      "type": "text",
+      "difficulty": "mittel",
+      "topics": ["Technisierung und digitale Bildung"],
+      "question": "Erläutern Sie die Chancen und Herausforderungen digitaler Bildung im schulischen Kontext.",
+      "model_answer": "Chancen digitaler Bildung sind die Flexibilität, der Zugang zu vielfältigen Lernressourcen und interaktive Lernmethoden. Herausforderungen bestehen in ungleichem Zugang, digitaler Ablenkung und der Notwendigkeit neuer didaktischer Konzepte.",
+      "keywords": ["Digitale Bildung", "Technisierung", "Didaktik"],
+      "source_reference": "einfuehrungsheft.pdf, S. 20"
+    },
+    {
+      "id": "q054",
+      "type": "multiple_choice",
+      "difficulty": "schwer",
+      "topics": ["Medienpädagogik und Sozialisationsprozesse"],
+      "question": "Welche der folgenden Aussagen beschreibt ein zentrales Ziel der Medienpädagogik?",
+      "options": [
+        "Die vollständige Abschaffung traditioneller Lehrmethoden.",
+        "Die Förderung eines reflektierten und kompetenten Umgangs mit Medien.",
+        "Die Einschränkung des Medienkonsums von Kindern und Jugendlichen.",
+        "Die Nutzung digitaler Medien ausschließlich für Unterhaltung."
+      ],
+      "correct_answer": 1,
+      "explanation": "Medienpädagogik zielt darauf ab, Kinder und Jugendliche zu einem kritischen und verantwortungsvollen Umgang mit Medien zu befähigen.",
+      "source_reference": "einfuehrungsheft.pdf, S. 22"
+    },
+    {
+      "id": "q055",
+      "type": "text",
+      "difficulty": "leicht",
+      "topics": ["Zukunftsperspektiven der Erziehung"],
+      "question": "Welche Rolle spielt lebenslanges Lernen in der modernen Gesellschaft?",
+      "model_answer": "Lebenslanges Lernen ist essenziell für die Anpassung an gesellschaftlichen und technologischen Wandel. Es ermöglicht kontinuierliche Weiterbildung und fördert persönliche sowie berufliche Entwicklung.",
+      "keywords": ["Lebenslanges Lernen", "Weiterbildung", "Wandel"],
+      "source_reference": "einfuehrungsheft.pdf, S. 25"
+    },
+    {
+      "id": "q056",
+      "type": "multiple_choice",
+      "difficulty": "mittel",
+      "topics": ["Individualisierung und Pluralisierung von Erziehung"],
+      "question": "Welche Herausforderung ergibt sich aus der zunehmenden Pluralisierung von Erziehung?",
+      "options": [
+        "Einheitliche Bildungsstandards werden obsolet.",
+        "Erziehung wird verstärkt an individuelle Bedürfnisse angepasst.",
+        "Die Bedeutung von Erziehung nimmt ab.",
+        "Es gibt eine zunehmende Unübersichtlichkeit in pädagogischen Konzepten."
+      ],
+      "correct_answer": 3,
+      "explanation": "Durch die Pluralisierung von Erziehungsmodellen entstehen vielfältige Ansätze, was die Orientierung für Pädagogen und Eltern erschwert.",
+      "source_reference": "einfuehrungsheft.pdf, S. 18"
+    }
+  ]
+}

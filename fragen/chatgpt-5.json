@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "source": "pädagogische-theorien-und-fragestellungen.pdf",
+    "created_by": "ChatGPT",
+    "creation_date": "2025-03-16",
+    "topics": ["Pädagogische Theorien und Fragestellungen"]
+  },
+  "questions": [
+    {
+      "id": "q042",
+      "type": "multiple_choice",
+      "difficulty": "leicht",
+      "topics": ["Erziehungsbegriff und Bildung"],
+      "question": "Welches Ziel verfolgt Erziehung in der Pädagogik?",
+      "options": [
+        "Die vollständige Kontrolle des Kindes durch die Eltern.",
+        "Die Förderung der individuellen und sozialen Entwicklung.",
+        "Die Anpassung aller Kinder an ein einheitliches Bildungssystem.",
+        "Die Reduktion der Lernprozesse auf formale Schulbildung."
+      ],
+      "correct_answer": 1,
+      "explanation": "Erziehung zielt darauf ab, sowohl die individuelle Entfaltung als auch die soziale Integration von Kindern und Jugendlichen zu fördern.",
+      "source_reference": "pädagogische-theorien-und-fragestellungen.pdf, S. 5"
+    },
+    {
+      "id": "q043",
+      "type": "text",
+      "difficulty": "mittel",
+      "topics": ["Generationenverhältnis und pädagogischer Bezug"],
+      "question": "Beschreiben Sie den Begriff des pädagogischen Bezugs nach Herman Nohl.",
+      "model_answer": "Herman Nohl versteht den pädagogischen Bezug als eine verantwortungsvolle Beziehung zwischen Erziehendem und Heranwachsenden, die auf Vertrauen, Anerkennung und individueller Förderung basiert.",
+      "keywords": ["pädagogischer Bezug", "Herman Nohl", "Erziehung"],
+      "source_reference": "pädagogische-theorien-und-fragestellungen.pdf, S. 12"
+    },
+    {
+      "id": "q044",
+      "type": "multiple_choice",
+      "difficulty": "schwer",
+      "topics": ["Erziehung und gesellschaftlicher Wandel"],
+      "question": "Welches Problem wird in Bezug auf Erziehung und gesellschaftlichen Wandel häufig diskutiert?",
+      "options": [
+        "Dass Erziehung in der modernen Gesellschaft keine Rolle mehr spielt.",
+        "Dass traditionelle Erziehungsmodelle den Anforderungen der heutigen Gesellschaft nicht immer gerecht werden.",
+        "Dass moderne Gesellschaften keine Erziehungsinstitutionen mehr benötigen.",
+        "Dass sich der Bildungsstand der Bevölkerung durch gesellschaftlichen Wandel kaum verändert."
+      ],
+      "correct_answer": 1,
+      "explanation": "Gesellschaftlicher Wandel führt dazu, dass traditionelle Erziehungskonzepte hinterfragt werden und an neue Bedingungen angepasst werden müssen.",
+      "source_reference": "pädagogische-theorien-und-fragestellungen.pdf, S. 30"
+    },
+    {
+      "id": "q045",
+      "type": "text",
+      "difficulty": "leicht",
+      "topics": ["Pädagogische Verantwortung"],
+      "question": "Warum ist pädagogische Verantwortung ein zentraler Aspekt der Erziehung?",
+      "model_answer": "Pädagogische Verantwortung bedeutet, dass Erziehende bewusste und reflektierte Entscheidungen treffen müssen, um Kinder und Jugendliche bestmöglich zu fördern. Sie umfasst ethische, soziale und fachliche Dimensionen.",
+      "keywords": ["pädagogische Verantwortung", "Erziehung", "Reflexion"],
+      "source_reference": "pädagogische-theorien-und-fragestellungen.pdf, S. 15"
+    },
+    {
+      "id": "q046",
+      "type": "multiple_choice",
+      "difficulty": "mittel",
+      "topics": ["Erziehungsbegriff und Bildung"],
+      "question": "Was unterscheidet den Bildungsbegriff von Erziehung?",
+      "options": [
+        "Bildung beschreibt die individuelle Entwicklung, Erziehung hingegen die gezielte Einflussnahme auf diese Entwicklung.",
+        "Erziehung ist ein freiwilliger Prozess, Bildung hingegen ist gesetzlich vorgeschrieben.",
+        "Bildung umfasst nur schulische Inhalte, während Erziehung auch soziale Aspekte umfasst.",
+        "Es gibt keinen Unterschied, die Begriffe werden synonym verwendet."
+      ],
+      "correct_answer": 0,
+      "explanation": "Bildung bezieht sich auf die Selbstentwicklung des Individuums, während Erziehung die gezielte Beeinflussung dieses Prozesses ist.",
+      "source_reference": "pädagogische-theorien-und-fragestellungen.pdf, S. 8"
+    }
+  ]
+}

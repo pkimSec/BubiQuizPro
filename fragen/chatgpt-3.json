@@ -1,0 +1,82 @@
+{
+  "questions": [
+    {
+      "id": "q031",
+      "type": "multiple_choice",
+      "difficulty": "mittel",
+      "topics": ["Erziehung in der Postmoderne", "Gesellschaftliche Veränderungen"],
+      "question": "Welches Merkmal ist charakteristisch für Erziehung in der Postmoderne?",
+      "options": [
+        "Eine Rückkehr zu traditionellen Familienstrukturen.",
+        "Eine zunehmende Pluralisierung von Erziehungsmodellen und Lebensentwürfen.",
+        "Die strikte Kontrolle der Mediennutzung durch pädagogische Institutionen.",
+        "Die Abnahme der Bedeutung individueller Selbstbestimmung."
+      ],
+      "correct_answer": 1,
+      "explanation": "Die Postmoderne ist durch eine Pluralisierung von Erziehungsmodellen geprägt, was eine Herausforderung für einheitliche pädagogische Konzepte darstellt&#8203;:contentReference[oaicite:0]{index=0}.",
+      "source_reference": "einfuehrungsheft.pdf, S. 11"
+    },
+    {
+      "id": "q032",
+      "type": "text",
+      "difficulty": "schwer",
+      "topics": ["Erziehung in der Postmoderne", "Familienstrukturen"],
+      "question": "Erläutern Sie, wie der Wandel der Familie als Lebensform die pädagogische Praxis beeinflusst.",
+      "model_answer": "Der Wandel der Familie führt zu vielfältigeren Erziehungsstilen und -konzepten. Pädagogische Fachkräfte müssen auf unterschiedliche familiäre Strukturen eingehen, was eine Flexibilisierung von Erziehungsmethoden erfordert. Zudem entstehen neue Herausforderungen, wie die Vereinbarkeit von Beruf und Familie sowie die Integration digitaler Medien in den Alltag von Kindern.",
+      "keywords": ["Familienwandel", "Erziehung", "Pluralisierung", "Digitalisierung"],
+      "source_reference": "einfuehrungsheft.pdf, S. 12"
+    },
+    {
+      "id": "q033",
+      "type": "multiple_choice",
+      "difficulty": "leicht",
+      "topics": ["Medienpädagogik", "Digitale Bildung"],
+      "question": "Welches Ziel verfolgt die Medienpädagogik?",
+      "options": [
+        "Die vollständige Vermeidung digitaler Medien in der Erziehung.",
+        "Die Förderung eines kritischen und kompetenten Umgangs mit Medien.",
+        "Die ausschließliche Nutzung klassischer Lehrmethoden in Bildungseinrichtungen.",
+        "Die Ersetzung traditioneller Lehrmethoden durch digitale Angebote."
+      ],
+      "correct_answer": 1,
+      "explanation": "Medienpädagogik zielt darauf ab, Kindern und Jugendlichen einen reflektierten und kompetenten Umgang mit Medien zu vermitteln&#8203;:contentReference[oaicite:1]{index=1}.",
+      "source_reference": "einfuehrungsheft.pdf, S. 12"
+    },
+    {
+      "id": "q034",
+      "type": "text",
+      "difficulty": "mittel",
+      "topics": ["Medienpädagogik", "Sozialisation"],
+      "question": "Diskutieren Sie die Rolle digitaler Medien für die Sozialisation von Kindern und Jugendlichen.",
+      "model_answer": "Digitale Medien prägen zunehmend die Sozialisation von Kindern und Jugendlichen, indem sie neue Kommunikationsformen, Lernmöglichkeiten und soziale Interaktionen ermöglichen. Gleichzeitig bergen sie Herausforderungen wie die Gefahr von Fehlinformationen oder die Reduktion direkter sozialer Kontakte. Eine medienpädagogische Begleitung ist daher essenziell, um den bewussten Umgang mit digitalen Medien zu fördern.",
+      "keywords": ["Medienpädagogik", "Sozialisation", "Digitale Bildung", "Kommunikation"],
+      "source_reference": "einfuehrungsheft.pdf, S. 13"
+    },
+    {
+      "id": "q035",
+      "type": "multiple_choice",
+      "difficulty": "mittel",
+      "topics": ["Erziehungsstile", "Pädagogische Methoden"],
+      "question": "Welche der folgenden Erziehungsstile zählt nicht zu den klassischen Erziehungsmodellen?",
+      "options": [
+        "Autoritative Erziehung",
+        "Permissive Erziehung",
+        "Partizipative Erziehung",
+        "Diktatorische Erziehung"
+      ],
+      "correct_answer": 3,
+      "explanation": "Die autoritäre, autoritative und permissive Erziehung sind etablierte Modelle. Der Begriff 'diktatorische Erziehung' ist kein wissenschaftlich anerkannter Erziehungsstil&#8203;:contentReference[oaicite:2]{index=2}.",
+      "source_reference": "einfuehrungsheft.pdf, S. 9"
+    },
+    {
+      "id": "q036",
+      "type": "text",
+      "difficulty": "schwer",
+      "topics": ["Erziehungsstile", "Bildungswissenschaften"],
+      "question": "Vergleichen Sie die autoritative und die permissive Erziehung hinsichtlich ihrer Auswirkungen auf die Persönlichkeitsentwicklung.",
+      "model_answer": "Die autoritative Erziehung zeichnet sich durch klare Regeln und eine unterstützende Haltung aus, die Selbstbewusstsein und soziale Kompetenzen fördert. Im Gegensatz dazu setzt die permissive Erziehung auf eine geringe Kontrolle, was zu einer schwächeren Entwicklung von Selbstregulation und Frustrationstoleranz führen kann.",
+      "keywords": ["Erziehungsstile", "Autoritativ", "Permissiv", "Persönlichkeitsentwicklung"],
+      "source_reference": "einfuehrungsheft.pdf, S. 10"
+    }
+  ]
+}
