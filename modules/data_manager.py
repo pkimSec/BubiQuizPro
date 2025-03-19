@@ -1,65 +1,4 @@
-def refresh_all_data(self):
-        """
-        Refresh all cached data and database info.
-        Call this after questions are added or removed.
-        """
-        # Clear caches
-        self._questions_cache = {}
-        self._topics_cache = set()
-        self._sources_cache = set()
-        
-        # Reload questions from files
-        self.load_all_questions()
-        
-        # Update the database topic entries
-        with self.conn_lock:
-            cursor = self.conn.cursor()
-            
-            # Get current topics from question files
-            current_topics = self._topics_cache
-            
-            # Get topics from database
-            cursor.execute("SELECT topic_name FROM topic_progress")
-            db_topics = {row[0] for row in cursor.fetchall()}
-            
-            # Remove topics that no longer exist
-            for topic in db_topics - current_topics:
-                cursor.execute("DELETE FROM topic_progress WHERE topic_name = ?", (topic,))
-            
-            # Add new topics
-            for topic in current_topics:
-                # Count questions for this topic
-                count = sum(1 for q in self._questions_cache.values() 
-                           if topic in q.get('topics', []))
-                
-                # Insert or update topic
-                cursor.execute(
-                    """
-                    INSERT OR REPLACE INTO topic_progress 
-                    (topic_name, total_questions, correct_answers, mastery_percentage)
-                    VALUES (?, ?, 0, 0)
-                    """,
-                    (topic, count)
-                )
-            
-            # Clean up subjects_scripts table
-            cursor.execute("DELETE FROM subjects_scripts")
-            
-            # Re-populate subjects_scripts if needed
-            for q in self._questions_cache.values():
-                if 'source_reference' in q:
-                    parts = q['source_reference'].split(',')[0].split()
-                    if len(parts) >= 2:
-                        subject = parts[0]
-                        script = ' '.join(parts[1:])
-                        cursor.execute(
-                            "INSERT OR IGNORE INTO subjects_scripts (subject_name, script_name) VALUES (?, ?)",
-                            (subject, script)
-                        )
-            
-            self.conn.commit()
-            
-        logger.info("All data refreshed")#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 BubiQuizPro - Data Management Module
@@ -211,13 +150,10 @@ class DataManager:
             metadata = data.get('metadata', {})
             source = metadata.get('source', os.path.basename(file_path))
             
-            # Process subject and script
-            if 'source' in metadata:
-                parts = metadata['source'].split()
-                if len(parts) >= 2:
-                    subject = parts[0]
-                    script = ' '.join(parts[1:])
-                    self._add_subject_script(subject, script)
+            # Store source as a script in the database
+            if source:
+                self._add_source_script(source)
+                logger.debug(f"Added source as script: {source}")
             
             # Add to cache
             questions = data.get('questions', [])
@@ -248,6 +184,12 @@ class DataManager:
                         "UPDATE topic_progress SET total_questions = total_questions + 1 WHERE topic_name = ?",
                         (topic,)
                     )
+                
+                # Extract subject from the question and add to subjects_scripts table
+                subject = question.get('subject')
+                if subject:
+                    self._add_subject_script(subject, source)
+                    logger.debug(f"Added subject/script pair: {subject}/{source}")
             
             # Save questions to a file in the questions directory
             dest_file = os.path.join(self.questions_dir, os.path.basename(file_path))
@@ -263,6 +205,21 @@ class DataManager:
         except Exception as e:
             logger.error(f"Error importing questions: {e}", exc_info=True)
             return False, f"Error: {str(e)}", 0
+        
+    def _add_source_script(self, source):
+        """
+        Add a source as a script (without a subject).
+        
+        Args:
+            source (str): Source name (typically a filename)
+        """
+        with self.conn_lock:  # Use lock for thread safety
+            cursor = self.conn.cursor()
+            cursor.execute(
+                "INSERT OR IGNORE INTO subjects_scripts (script_name) VALUES (?)",
+                (source,)
+            )
+            self.conn.commit()
     
     def _validate_question_format(self, data):
         """
@@ -287,6 +244,10 @@ class DataManager:
             # Check required fields
             if 'question' not in question:
                 return False
+                
+            # Check for subject field (warn but don't fail)
+            if 'subject' not in question:
+                logger.warning(f"Question missing 'subject' field: {question.get('id', 'unknown')}")
                 
             # Check multiple choice format
             if question.get('type') == 'multiple_choice':
@@ -321,7 +282,7 @@ class DataManager:
     def load_all_questions(self):
         """
         Load all questions from JSON files in the questions directory.
-        
+
         Returns:
             int: Number of questions loaded
         """
@@ -330,6 +291,7 @@ class DataManager:
             self._questions_cache = {}
             self._topics_cache = set()
             self._sources_cache = set()
+            self._subjects_cache = set()  # Add a subjects cache
             
             count = 0
             
@@ -350,12 +312,21 @@ class DataManager:
                         for question in questions:
                             q_id = question.get('id')
                             if q_id:
+                                # Add metadata to the question for easier access
+                                question['metadata'] = metadata
+                                
+                                # Store in cache
                                 self._questions_cache[q_id] = question
                                 count += 1
                                 
                                 # Update topics cache
                                 for topic in question.get('topics', []):
                                     self._topics_cache.add(topic)
+                                
+                                # Update subjects cache
+                                subject = question.get('subject')
+                                if subject:
+                                    self._subjects_cache.add(subject)
             
             logger.info(f"Loaded {count} questions from {len(os.listdir(self.questions_dir))} files")
             return count
@@ -407,12 +378,13 @@ class DataManager:
         Get questions filtered by various criteria.
         
         Args:
-            topics (list, optional): List of topics to filter by
-            difficulty (str, optional): Difficulty level to filter by
-            source (str, optional): Source to filter by
-            subject (str, optional): Subject to filter by
-            script (str, optional): Script to filter by
-            question_type (str, optional): Type of question to filter by ('multiple_choice' or 'text')
+            topics (list, optional): List of topics to filter by. None means include all topics.
+            difficulty (str, optional): Difficulty level to filter by. None means include all difficulties.
+            source (str, optional): Source to filter by. None means include all sources.
+            subject (str, optional): Subject to filter by. None means include all subjects.
+            script (str, optional): Script to filter by. None means include all scripts.
+            question_type (str, optional): Type of question to filter by ('multiple_choice' or 'text'). 
+                                        None means include all types.
             
         Returns:
             dict: Dictionary of filtered questions indexed by ID
@@ -427,12 +399,12 @@ class DataManager:
         }
         
         for q_id, question in self._questions_cache.items():
-            # Apply topic filter
+            # Apply topic filter (only if topics is not None)
             if topics and not any(topic in question.get('topics', []) for topic in topics):
                 continue
                 
-            # Apply difficulty filter
-            if difficulty:
+            # Apply difficulty filter (only if difficulty is not None)
+            if difficulty and difficulty.lower() != "any":
                 question_difficulty = question.get('difficulty', '').lower()
                 
                 # Check if there's a match in any of the mapped terms
@@ -446,37 +418,109 @@ class DataManager:
                 if not match_found and question_difficulty != difficulty.lower():
                     continue
             
-            # Apply question type filter
-            if question_type and question.get('type') != question_type:
-                continue
-                
-            # Apply source filter
-            source_ref = question.get('source_reference', '')
-            metadata_source = ''
-            
-            # Check metadata for source if available
-            if 'metadata' in question:
-                metadata_source = question['metadata'].get('source', '')
-            
-            if source and not (source in source_ref or source in metadata_source):
-                continue
-                
-            # Apply subject and script filters
-            if subject or script:
-                source_parts = source_ref.split()
-                q_subject = source_parts[0] if len(source_parts) >= 1 else ''
-                q_script = ' '.join(source_parts[1:]) if len(source_parts) >= 2 else ''
-                
-                if subject and q_subject != subject:
+            # Apply question type filter (only if question_type is not None)
+            if question_type and question_type.lower() != "any":
+                if question.get('type') != question_type:
                     continue
-                    
-                if script and q_script != script:
+                
+            # Apply source filter to metadata source (only if source is not None)
+            if source and source.lower() != "any":
+                metadata_source = ''
+                if 'metadata' in question:
+                    metadata_source = question['metadata'].get('source', '')
+                
+                question_source = question.get('source_reference', '')
+                
+                if not (source in question_source or source == metadata_source):
+                    continue
+                
+            # Apply subject filter (only if subject is not None)
+            if subject and subject.lower() != "any":
+                if question.get('subject') != subject:
+                    continue
+                
+            # Apply script filter (only if script is not None)
+            if script and script.lower() != "any":
+                # Get metadata source
+                metadata = question.get('metadata', {})
+                question_script = metadata.get('source', '')
+                
+                if question_script != script:
                     continue
             
             # Add to filtered results
             filtered[q_id] = question
         
         return filtered
+    
+    def refresh_all_data(self):
+        """
+        Refresh all cached data and database info.
+        Call this after questions are added or removed.
+        """
+        # Clear caches
+        self._questions_cache = {}
+        self._topics_cache = set()
+        self._sources_cache = set()
+        self._subjects_cache = set()  # Add a subjects cache
+        
+        # Reload questions from files
+        self.load_all_questions()
+        
+        # Update the database topic entries
+        with self.conn_lock:
+            cursor = self.conn.cursor()
+            
+            # Get current topics from question files
+            current_topics = self._topics_cache
+            
+            # Get topics from database
+            cursor.execute("SELECT topic_name FROM topic_progress")
+            db_topics = {row[0] for row in cursor.fetchall()}
+            
+            # Remove topics that no longer exist
+            for topic in db_topics - current_topics:
+                cursor.execute("DELETE FROM topic_progress WHERE topic_name = ?", (topic,))
+            
+            # Add new topics
+            for topic in current_topics:
+                # Count questions for this topic
+                count = sum(1 for q in self._questions_cache.values() 
+                        if topic in q.get('topics', []))
+                
+                # Insert or update topic
+                cursor.execute(
+                    """
+                    INSERT OR REPLACE INTO topic_progress 
+                    (topic_name, total_questions, correct_answers, mastery_percentage)
+                    VALUES (?, ?, 0, 0)
+                    """,
+                    (topic, count)
+                )
+            
+            # Clean up subjects_scripts table
+            cursor.execute("DELETE FROM subjects_scripts")
+            
+            # Re-populate subjects_scripts table
+            for q in self._questions_cache.values():
+                # Get subject directly from question
+                subject = q.get('subject')
+                if subject:
+                    self._subjects_cache.add(subject)
+                    
+                    # Get script from metadata
+                    metadata = q.get('metadata', {})
+                    script = metadata.get('source', '')
+                    
+                    if script:
+                        cursor.execute(
+                            "INSERT OR IGNORE INTO subjects_scripts (subject_name, script_name) VALUES (?, ?)",
+                            (subject, script)
+                        )
+            
+            self.conn.commit()
+            
+        logger.info("All data refreshed")
     
     def get_question_progress(self, question_id):
         """
@@ -571,8 +615,8 @@ class DataManager:
                     "SELECT script_name FROM subjects_scripts WHERE subject_name = ?",
                     (subject,)
                 )
-                return [row[0] for row in cursor.fetchall()]
-        except sqlite3.Error as e:
+                return [row[0] for row in cursor.fetchall() if row[0]]
+        except Exception as e:
             logger.error(f"Error getting scripts for subject: {e}", exc_info=True)
             return []
     

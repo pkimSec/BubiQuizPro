@@ -14,6 +14,7 @@
       {
         "id": "q001",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Was versteht man unter 'Fragwürdigkeit des Menschen' im Kontext anthropologischen Nachdenkens?",
@@ -30,6 +31,7 @@
       {
         "id": "q002",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "einfach",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welcher Satz drückt die häufige Tendenz aus, menschliche Verhaltensweisen zu verallgemeinern?",
@@ -46,6 +48,7 @@
       {
         "id": "q003",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "einfach",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Was impliziert der Ausdruck 'Das ist doch nur menschlich' in der Diskussion um menschliche Fehler?",
@@ -62,6 +65,7 @@
       {
         "id": "q004",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welcher philosophische Ansatz betont die Unvollkommenheit und die Notwendigkeit kritischen Nachdenkens über den Menschen?",
@@ -78,6 +82,7 @@
       {
         "id": "q005",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Was bedeutet es, wenn man sagt, dass 'alle, aber nicht jeder' handelt?",
@@ -94,6 +99,7 @@
       {
         "id": "q006",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welche Rolle spielt die Erfahrung im Prozess des anthropologischen Nachdenkens über den Menschen?",
@@ -110,6 +116,7 @@
       {
         "id": "q007",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Wie trägt das Nachdenken über den Menschen zur ethischen Selbstreflexion bei?",
@@ -126,6 +133,7 @@
       {
         "id": "q008",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "schwer",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welche Bedeutung hat die Diskussion um den 'Übermenschen' in der anthropologischen Reflexion?",
@@ -142,6 +150,7 @@
       {
         "id": "q009",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welcher Aspekt wird kritisiert, wenn man Menschen pauschal als 'unmenschlich' bezeichnet?",
@@ -158,6 +167,7 @@
       {
         "id": "q010",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Wie sollte laut anthropologischer Perspektive mit Stereotypen umgegangen werden?",
@@ -174,6 +184,7 @@
       {
         "id": "q011",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welche Aussage beschreibt den Unterschied zwischen 'Menschen als solche' und 'individuellen Menschen'?",
@@ -190,6 +201,7 @@
       {
         "id": "q012",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welcher Faktor ist laut dem Skript wesentlich für die Entwicklung eines realistischen Menschenbildes?",
@@ -206,6 +218,7 @@
       {
         "id": "q013",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "schwer",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welche Konsequenz hat eine unkritische Übernahme von Allgemeinplätzen über den Menschen?",
@@ -222,6 +235,7 @@
       {
         "id": "q014",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Wie kann anthropologisches Nachdenken zur Verbesserung pädagogischer Ansätze beitragen?",
@@ -238,6 +252,7 @@
       {
         "id": "q015",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "einfach",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welche Rolle spielt Empathie im anthropologischen Diskurs über menschliche Eigenschaften?",
@@ -254,6 +269,7 @@
       {
         "id": "q016",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Was ist ein zentraler Kritikpunkt an pauschalen Menschenbildern?",
@@ -270,6 +286,7 @@
       {
         "id": "q017",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Wie wird im Skript die Beziehung zwischen individuellen Erfahrungen und allgemeinen Menschenbildern dargestellt?",
@@ -286,6 +303,7 @@
       {
         "id": "q018",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "einfach",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welcher Begriff beschreibt die Bereitschaft, eigene Vorurteile zu hinterfragen und zu ändern?",
@@ -302,6 +320,7 @@
       {
         "id": "q019",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Wie wird die Komplexität menschlicher Natur im Skript dargestellt?",
@@ -318,6 +337,7 @@
       {
         "id": "q020",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "schwer",
         "topics": ["Nachdenken über Menschen und ihre Eigenschaften"],
         "question": "Welche Aussage fasst den Ansatz des anthropologischen Nachdenkens am besten zusammen?",
@@ -334,6 +354,7 @@
       {
         "id": "q021",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welches zentrale Problem wird im Kapitel 'Probleme mit der Anthropologie' thematisiert?",
@@ -350,6 +371,7 @@
       {
         "id": "q022",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Wie wird der Begriff 'Natur des Menschen' im Skript diskutiert?",
@@ -366,6 +388,7 @@
       {
         "id": "q023",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "einfach",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Problematik wird mit dem Begriff 'Normalität' in Zusammenhang gebracht?",
@@ -382,6 +405,7 @@
       {
         "id": "q024",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Rolle spielt der Begriff 'Rasse' in der aktuellen anthropologischen Debatte laut Skript?",
@@ -398,6 +422,7 @@
       {
         "id": "q025",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Was versteht man unter 'Geschichtlichkeit' im Kontext der anthropologischen Problematik?",
@@ -414,6 +439,7 @@
       {
         "id": "q026",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Aussage reflektiert die Spannung zwischen universellen und differenzierten Menschenbildern?",
@@ -430,6 +456,7 @@
       {
         "id": "q027",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Konsequenz kann sich aus einer übermäßigen Betonung biologischer Determinanten ergeben?",
@@ -446,6 +473,7 @@
       {
         "id": "q028",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Wie wird der Einfluss von Neurowissenschaften und Genforschung in der anthropologischen Diskussion kritisiert?",
@@ -462,6 +490,7 @@
       {
         "id": "q029",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Problematik wird im Zusammenhang mit der 'Determinierung' menschlichen Verhaltens angesprochen?",
@@ -478,6 +507,7 @@
       {
         "id": "q030",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "einfach",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Gefahr wird im Skript im Hinblick auf anthropologische Allgemeinplätze thematisiert?",
@@ -494,6 +524,7 @@
       {
         "id": "q031",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Wie wird das Konzept der 'kulturellen Evolution' im Kontext der Anthropologie dargestellt?",
@@ -510,6 +541,7 @@
       {
         "id": "q032",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Rolle spielt die wissenschaftliche Kritik in der Debatte um anthropologische Aussagen?",
@@ -526,6 +558,7 @@
       {
         "id": "q033",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Was wird unter dem Begriff 'Determinismus' in der Anthropologie verstanden?",
@@ -542,6 +575,7 @@
       {
         "id": "q034",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Herausforderung stellt sich bei der Vereinheitlichung von Menschenbildern?",
@@ -558,6 +592,7 @@
       {
         "id": "q035",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Wie wird im Skript der Zusammenhang zwischen sozialer Umgebung und individueller Entwicklung diskutiert?",
@@ -574,6 +609,7 @@
       {
         "id": "q036",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Kritik übt das Skript an der Anwendung rein quantitativer Methoden in der Anthropologie?",
@@ -590,6 +626,7 @@
       {
         "id": "q037",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Was wird als eine mögliche Folge einer zu starken Fokussierung auf genetische Faktoren genannt?",
@@ -606,6 +643,7 @@
       {
         "id": "q038",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Wie wird der Begriff 'Identität' im Kontext der anthropologischen Problematik thematisiert?",
@@ -622,6 +660,7 @@
       {
         "id": "q039",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welche Methode wird als hilfreich erachtet, um die Komplexität menschlichen Verhaltens zu verstehen?",
@@ -638,6 +677,7 @@
       {
         "id": "q040",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Probleme mit der Anthropologie"],
         "question": "Welcher Aspekt wird in den Diskussionen um 'Probleme mit der Anthropologie' als besonders herausfordernd dargestellt?",
@@ -654,6 +694,7 @@
       {
         "id": "q041",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Welche zentrale Fragestellung wird im Zusammenhang von Anthropologie und Pädagogik erörtert?",
@@ -670,6 +711,7 @@
       {
         "id": "q042",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Was beschreibt der Begriff 'Angeboren oder erworben?' im pädagogischen Kontext?",
@@ -686,6 +728,7 @@
       {
         "id": "q043",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Wie trägt die Bildung in sozialen Kontexten zur Entwicklung des Individuums bei?",
@@ -702,6 +745,7 @@
       {
         "id": "q044",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Welche Rolle spielt die Selbstreflexion in der pädagogischen Erziehung laut dem Skript?",
@@ -718,6 +762,7 @@
       {
         "id": "q045",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Wie wird der Begriff 'Bildsamkeit' im pädagogischen Kontext verstanden?",
@@ -734,6 +779,7 @@
       {
         "id": "q046",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Welche Bedeutung hat die Kritik an pauschalen Zuschreibungen in der pädagogischen Praxis?",
@@ -750,6 +796,7 @@
       {
         "id": "q047",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Was wird als Folge einer einseitigen Fokussierung auf angeborene Eigenschaften betrachtet?",
@@ -766,6 +813,7 @@
       {
         "id": "q048",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Welcher Aspekt ist zentral für die Gestaltung von Erziehungsprozessen im Skript?",
@@ -782,6 +830,7 @@
       {
         "id": "q049",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "einfach",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Wie wird der Einfluss der sozialen Umgebung auf die Persönlichkeitsentwicklung beschrieben?",
@@ -798,6 +847,7 @@
       {
         "id": "q050",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Welcher pädagogische Ansatz wird durch die Integration anthropologischer Erkenntnisse unterstützt?",
@@ -814,6 +864,7 @@
       {
         "id": "q051",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Was ist ein zentrales Ziel der Erziehung laut dem Skript?",
@@ -830,6 +881,7 @@
       {
         "id": "q052",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Wie wird der Begriff 'Freiheit bei dem Zwange' im pädagogischen Kontext interpretiert?",
@@ -846,6 +898,7 @@
       {
         "id": "q053",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Welche Rolle spielt der pädagogische Diskurs in der Vermittlung eines kritischen Menschenbildes?",
@@ -862,6 +915,7 @@
       {
         "id": "q054",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Wie wird der Zusammenhang zwischen individueller Identität und sozialer Interaktion im Skript dargestellt?",
@@ -878,6 +932,7 @@
       {
         "id": "q055",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Welcher Aspekt wird als Herausforderung in der Erziehung betont?",
@@ -894,6 +949,7 @@
       {
         "id": "q056",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Was bedeutet 'Selbsterziehung' im Kontext des Skripts?",
@@ -910,6 +966,7 @@
       {
         "id": "q057",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "einfach",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Wie wird der Begriff 'Würde des Menschen' in pädagogischen Zusammenhängen verknüpft?",
@@ -926,6 +983,7 @@
       {
         "id": "q058",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Welche Bedeutung hat der interdisziplinäre Ansatz in der Verbindung von Anthropologie und Pädagogik?",
@@ -942,6 +1000,7 @@
       {
         "id": "q059",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Wie sollte laut dem Skript das pädagogische Handeln gestaltet sein?",
@@ -958,6 +1017,7 @@
       {
         "id": "q060",
         "type": "multiple_choice",
+        "subject": "Pädagogische Grundlagen",
         "difficulty": "mittel",
         "topics": ["Das Verhältnis von Anthropologie und Pädagogik"],
         "question": "Was ist eine wesentliche Voraussetzung für eine erfolgreiche pädagogische Praxis laut anthropologischen Erkenntnissen?",

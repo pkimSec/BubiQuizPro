@@ -22,7 +22,7 @@ A comprehensive self-study quiz application designed for efficient learning and 
 1. Clone or download this repository
 2. Install required dependencies:
    ```
-   pip install matplotlib pillow
+   pip install -r requirements.txt
    ```
 3. Run the application:
    ```
@@ -41,15 +41,16 @@ Example JSON format:
 {
   "metadata": {
     "version": "1.0",
-    "source": "Vorlesungsskript Analysis",
+    "source": "paedagogische-grundlagen.pdf",
     "created_by": "Author Name",
     "creation_date": "2025-03-15",
-    "topics": ["Analysis", "Differentialrechnung"]
+    "topics": ["Pädagogik", "Anthropologie"]
   },
   "questions": [
     {
       "id": "q001",
       "type": "multiple_choice",
+      "subject": "Pädagogik",
       "difficulty": "mittel",
       "topics": ["Differentialrechnung", "Ableitungsregeln"],
       "question": "Welche Regel beschreibt die Ableitung eines Produkts zweier Funktionen?",
@@ -66,6 +67,7 @@ Example JSON format:
     {
       "id": "q002",
       "type": "text",
+      "subject": "Pädagogik",
       "difficulty": "schwer",
       "topics": ["Grenzwerte", "Stetigkeit"],
       "question": "Erklären Sie den Zusammenhang zwischen Stetigkeit und Differenzierbarkeit einer Funktion.",
@@ -76,6 +78,13 @@ Example JSON format:
   ]
 }
 ```
+
+### Important JSON Fields
+
+- **metadata.source**: The original source file (e.g., "paedagogische-grundlagen.pdf") - used for script selection
+- **subject**: Each question must have a "subject" field that defines the subject category (e.g., "Pädagogik", "Mathematik") - used for subject filtering
+- **topics**: Array of topics covered by the question - used for topic filtering
+- **difficulty**: Difficulty level of the question ("leicht", "mittel", "schwer") - used for difficulty filtering
 
 ### Quiz Modes
 

@@ -205,7 +205,12 @@ class QuestionFrame(ttk.Frame):
         return frame
     
     def load_first_question(self):
-        """Load the first question to start the quiz."""
+        """
+        Load the first question to start the quiz.
+        
+        Returns:
+            dict or None: The first question data or None if no questions available
+        """
         # Reset state
         self.answer_submitted = False
         self.feedback_frame.grid_remove()
@@ -234,8 +239,11 @@ class QuestionFrame(ttk.Frame):
         question = self.quiz_engine.get_next_question()
         if question:
             self._display_question(question)
+            return question
         else:
-            self._end_quiz()
+            # No questions available - end quiz
+            logger.warning("No questions available for the current filter criteria")
+            return None
     
     def _display_question(self, question):
         """

@@ -184,4 +184,4 @@ class BubiQuizPro:
 
 if __name__ == "__main__":
     app = BubiQuizPro()
-    app.run()
+    app.run()   

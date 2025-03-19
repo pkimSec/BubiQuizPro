@@ -671,9 +671,8 @@ class MainWindow:
         # Get question type (if defined in UI)
         question_type = None
         if hasattr(self, 'question_type_var'):
-            question_type = self.question_type_var.get()
-            if question_type == 'Any':
-                question_type = None
+            question_type_value = self.question_type_var.get()
+            question_type = None if question_type_value == 'Any' else question_type_value
         
         # Get question count and time limit
         question_count = self.question_count_var.get()
@@ -692,7 +691,15 @@ class MainWindow:
         )
         
         # Load first question into the question frame
-        self.frames['quiz_active'].load_first_question()
+        first_question = self.frames['quiz_active'].load_first_question()
+        
+        # If no questions were found, show a message and return to setup
+        if not first_question:
+            messagebox.showinfo(
+                "No Questions Found", 
+                "No questions match your current filter criteria. Please adjust your filters and try again."
+            )
+            return
         
         # Show the quiz frame
         self._show_frame('quiz_active')
