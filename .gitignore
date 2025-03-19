@@ -18,7 +18,8 @@ ENV/
 /data/user_progress.db
 /data/settings.json
 /data/exports/
-/fragen
+/data/questions/
+/fragen/
 
 # Log files
 /logs/
