@@ -668,6 +668,13 @@ class MainWindow:
         difficulty = self.difficulty_var.get()
         difficulty = None if difficulty == 'Any' else difficulty
         
+        # Get question type (if defined in UI)
+        question_type = None
+        if hasattr(self, 'question_type_var'):
+            question_type = self.question_type_var.get()
+            if question_type == 'Any':
+                question_type = None
+        
         # Get question count and time limit
         question_count = self.question_count_var.get()
         time_limit = self.time_limit_var.get() or None  # 0 becomes None (no limit)
@@ -679,6 +686,7 @@ class MainWindow:
             difficulty=difficulty,
             subject=subject,
             script=script,
+            question_type=question_type,
             question_count=question_count,
             time_limit=time_limit
         )
@@ -692,7 +700,7 @@ class MainWindow:
         # Update status
         self.status_var.set(f"Quiz started: {mode} mode")
         
-        logger.info(f"Started quiz: mode={mode}, topics={topics}, difficulty={difficulty}")
+        logger.info(f"Started quiz: mode={mode}, topics={topics}, difficulty={difficulty}, question_type={question_type}")
     
     def _start_quick_quiz(self, mode):
         """Start a quick quiz with default settings."""
@@ -704,7 +712,8 @@ class MainWindow:
         self.quiz_engine.start_session(
             mode=mode,
             question_count=question_count,
-            time_limit=time_limit
+            time_limit=time_limit,
+            question_type=None  # Allow both question types
         )
         
         # Load first question into the question frame

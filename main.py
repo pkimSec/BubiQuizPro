@@ -13,6 +13,7 @@ import tkinter as tk
 from tkinter import messagebox
 import logging
 from datetime import datetime
+import json
 
 # Add module paths
 sys.path.append(os.path.join(os.path.dirname(__file__), 'modules'))
@@ -23,6 +24,7 @@ from modules.data_manager import DataManager
 from modules.quiz_engine import QuizEngine
 from modules.stats_manager import StatsManager
 from ui.main_window import MainWindow
+from ui.login_dialog import LoginDialog
 
 # Configure logging
 log_dir = os.path.join(os.path.dirname(__file__), 'logs')
@@ -59,6 +61,9 @@ class BubiQuizPro:
             self.quiz_engine = QuizEngine(self.data_manager)
             self.stats_manager = StatsManager(self.data_manager)
             
+            # Show login dialog
+            self._show_login_dialog()
+            
             # Create main window
             self.main_window = MainWindow(
                 self.root, 
@@ -67,12 +72,74 @@ class BubiQuizPro:
                 self.stats_manager
             )
             
+            # Apply username from login
+            if hasattr(self, 'username') and self.username:
+                self._update_username(self.username)
+            
             logger.info("Application initialized successfully")
         except Exception as e:
             logger.error(f"Error initializing application: {e}", exc_info=True)
             messagebox.showerror("Initialization Error", 
                                f"An error occurred while starting the application: {str(e)}")
             sys.exit(1)
+    
+    def _show_login_dialog(self):
+        """Show the login dialog."""
+        # Path to settings file
+        settings_file = os.path.join(self.data_manager.data_dir, 'settings.json')
+        
+        # Show login dialog
+        login_dialog = LoginDialog(self.root, settings_file)
+        
+        # Get username
+        self.username = login_dialog.username
+        
+        # If cancelled, use default
+        if login_dialog.cancelled:
+            self.username = ""
+    
+    def _update_username(self, username):
+        """
+        Update the username in settings.
+        
+        Args:
+            username (str): Username to set
+        """
+        # Path to settings file
+        settings_file = os.path.join(self.data_manager.data_dir, 'settings.json')
+        
+        # Load or create settings
+        settings = {}
+        if os.path.exists(settings_file):
+            try:
+                with open(settings_file, 'r') as f:
+                    settings = json.load(f)
+            except Exception:
+                settings = {}
+        
+        # Ensure general section exists
+        if 'general' not in settings:
+            settings['general'] = {}
+        
+        # Update username
+        settings['general']['username'] = username
+        
+        # Add to recent users list
+        if 'recent_users' not in settings:
+            settings['recent_users'] = []
+        
+        # Add username to recent users if not already there
+        if username and username not in settings['recent_users']:
+            settings['recent_users'].insert(0, username)
+            # Keep only the last 5 users
+            settings['recent_users'] = settings['recent_users'][:5]
+        
+        # Save settings
+        try:
+            with open(settings_file, 'w') as f:
+                json.dump(settings, f, indent=4)
+        except Exception as e:
+            logger.error(f"Error saving settings: {e}", exc_info=True)
         
     def _setup_directories(self):
         """Set up the necessary directory structure."""

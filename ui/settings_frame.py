@@ -7,10 +7,14 @@ This module implements the UI component for application settings.
 """
 
 import tkinter as tk
-from tkinter import ttk, messagebox, colorchooser
+from tkinter import ttk, messagebox, colorchooser, filedialog
 import logging
 import os
 import json
+import shutil
+import subprocess
+import platform
+import threading
 
 logger = logging.getLogger(__name__)
 
@@ -72,6 +76,10 @@ class SettingsFrame(ttk.Frame):
         # Display settings tab
         self.display_frame = self._create_display_tab()
         self.notebook.add(self.display_frame, text="Display")
+        
+        # Data settings tab
+        self.data_frame = self._create_data_tab()
+        self.notebook.add(self.data_frame, text="Data")
         
         # Buttons section
         buttons_frame = ttk.Frame(self, style='Content.TFrame')
@@ -150,11 +158,86 @@ class SettingsFrame(ttk.Frame):
         
         # Backup button
         backup_btn = ttk.Button(data_frame, text="Create Backup Now", 
-                             command=self._create_backup)
+                             command=self._backup_database)
         backup_btn.grid(row=2, column=0, sticky='w', pady=10, padx=5)
         
         return frame
     
+    def _create_data_tab(self):
+        """Create the data management tab."""
+        frame = ttk.Frame(self.notebook, style='Content.TFrame', padding=10)
+        
+        # Progress Reset Section
+        progress_frame = ttk.LabelFrame(frame, text="Progress Management", padding=10)
+        progress_frame.pack(fill='x', pady=10)
+        
+        # Warning label
+        warning_label = ttk.Label(progress_frame, 
+                               text="Warning: These actions cannot be undone!",
+                               font=('Arial', 10, 'bold'),
+                               foreground='red')
+        warning_label.pack(anchor='w', pady=(0, 10))
+        
+        # Reset progress for current user
+        reset_current_btn = ttk.Button(progress_frame, 
+                                     text="Reset Progress for Current User",
+                                     command=self._reset_current_user_progress)
+        reset_current_btn.pack(fill='x', pady=5)
+        
+        # Reset progress for all users
+        reset_all_btn = ttk.Button(progress_frame, 
+                                 text="Reset Progress for All Users",
+                                 command=self._reset_all_users_progress)
+        reset_all_btn.pack(fill='x', pady=5)
+        
+        # Questions Management Section
+        questions_frame = ttk.LabelFrame(frame, text="Questions Management", padding=10)
+        questions_frame.pack(fill='x', pady=10)
+        
+        # Folder location
+        folder_path = os.path.join(self.data_manager.base_dir, 'data', 'questions')
+        location_label = ttk.Label(questions_frame, 
+                                text=f"Questions folder: {folder_path}")
+        location_label.pack(anchor='w', pady=5)
+        
+        # Button frame for questions management
+        questions_btn_frame = ttk.Frame(questions_frame)
+        questions_btn_frame.pack(fill='x', pady=5)
+        
+        # Open questions folder
+        open_folder_btn = ttk.Button(questions_btn_frame, 
+                                   text="Open Questions Folder",
+                                   command=self._open_questions_folder)
+        open_folder_btn.pack(side='left', padx=5)
+        
+        # Delete all questions
+        delete_all_btn = ttk.Button(questions_btn_frame, 
+                                  text="Delete All Questions",
+                                  command=self._delete_all_questions)
+        delete_all_btn.pack(side='right', padx=5)
+        
+        # Database Management Section
+        db_frame = ttk.LabelFrame(frame, text="Database Management", padding=10)
+        db_frame.pack(fill='x', pady=10)
+        
+        # Database location
+        db_path = self.data_manager.db_path
+        db_label = ttk.Label(db_frame, 
+                          text=f"Database file: {db_path}")
+        db_label.pack(anchor='w', pady=5)
+        
+        # Database buttons
+        db_btn_frame = ttk.Frame(db_frame)
+        db_btn_frame.pack(fill='x', pady=5)
+        
+        # Backup database
+        backup_db_btn = ttk.Button(db_btn_frame, 
+                                 text="Backup Database",
+                                 command=self._backup_database)
+        backup_db_btn.pack(side='left', padx=5)
+
+        return frame
+
     def _create_quiz_tab(self):
         """Create the quiz settings tab."""
         frame = ttk.Frame(self.notebook, style='Content.TFrame', padding=10)
@@ -410,9 +493,13 @@ class SettingsFrame(ttk.Frame):
         """Apply current UI values to the settings."""
         # Update settings dict from UI values
         
+        # Get the old username for comparison
+        old_username = self.settings.get('general', {}).get('username', '')
+        new_username = self.username_var.get()
+        
         # General settings
         self.settings['general'] = {
-            'username': self.username_var.get(),
+            'username': new_username,
             'startup': self.startup_var.get(),
             'autosave': self.autosave_var.get(),
             'backup': self.backup_var.get()
@@ -439,6 +526,17 @@ class SettingsFrame(ttk.Frame):
         
         # Apply display settings immediately
         self._update_preview()
+        
+        # Update recent users if username changed
+        if new_username and new_username != old_username:
+            if 'recent_users' not in self.settings:
+                self.settings['recent_users'] = []
+                
+            # Add username to recent users if not already there
+            if new_username not in self.settings['recent_users']:
+                self.settings['recent_users'].insert(0, new_username)
+                # Keep only the last 5 users
+                self.settings['recent_users'] = self.settings['recent_users'][:5]
         
         messagebox.showinfo("Settings Applied", 
                           "Settings have been applied. Some changes may require restarting the application.")
@@ -526,11 +624,206 @@ class SettingsFrame(ttk.Frame):
             self.accent_color_var.set(color)
             preview_label.config(background=color)
     
-    def _create_backup(self):
-        """Create a backup of the database."""
-        success, message, file_path = self.data_manager.backup_database()
+    def _reset_current_user_progress(self):
+        """Reset progress for the current user."""
+        if messagebox.askyesno("Reset Current User Progress",
+                             "Are you sure you want to reset all progress for the current user?\n\n"
+                             "This will remove all question progress and session history "
+                             "for the current user. This action cannot be undone.",
+                             icon='warning'):
+            try:
+                # Get current username from settings
+                username = self.username_var.get()
+                
+                # Run in a separate thread to avoid UI freeze
+                def reset_thread():
+                    with self.data_manager.conn_lock:  # Use lock for thread safety
+                        cursor = self.data_manager.conn.cursor()
+                        
+                        # If username is set, only reset that user's progress
+                        if username:
+                            # Placeholder for username-specific reset
+                            # In the current implementation, we don't have user-specific tables
+                            # This would need to be expanded if user-specific progress is implemented
+                            messagebox.showinfo("Information", 
+                                             "Multiple user support not fully implemented. "
+                                             "Resetting all progress.")
+                            self._reset_all_tables()
+                        else:
+                            # If no username set, reset all progress
+                            self._reset_all_tables()
+                            
+                        self.data_manager.conn.commit()
+                        
+                        # Update UI in main thread
+                        self.after(0, lambda: messagebox.showinfo("Reset Complete", 
+                                                             "User progress has been reset successfully."))
+                
+                threading.Thread(target=reset_thread).start()
+                
+            except Exception as e:
+                logger.error(f"Error resetting user progress: {e}", exc_info=True)
+                messagebox.showerror("Reset Error", 
+                                  f"An error occurred while resetting progress: {str(e)}")
+    
+    def _reset_all_users_progress(self):
+        """Reset progress for all users."""
+        if messagebox.askyesno("Reset All Progress",
+                             "Are you sure you want to reset ALL progress for ALL users?\n\n"
+                             "This will remove ALL question progress and session history. "
+                             "This action cannot be undone.",
+                             icon='warning'):
+            try:
+                # Run in a separate thread to avoid UI freeze
+                def reset_thread():
+                    # Reset all tables
+                    self._reset_all_tables()
+                    
+                    # Update UI in main thread
+                    self.after(0, lambda: messagebox.showinfo("Reset Complete", 
+                                                         "All progress has been reset successfully."))
+                
+                threading.Thread(target=reset_thread).start()
+                
+            except Exception as e:
+                logger.error(f"Error resetting all progress: {e}", exc_info=True)
+                messagebox.showerror("Reset Error", 
+                                  f"An error occurred while resetting progress: {str(e)}")
+    
+    def _reset_all_tables(self):
+        """Reset all database tables."""
+        with self.data_manager.conn_lock:  # Use lock for thread safety
+            cursor = self.data_manager.conn.cursor()
+            
+            # Clear question progress
+            cursor.execute("DELETE FROM question_progress")
+            
+            # Clear topic progress
+            cursor.execute("DELETE FROM topic_progress")
+            
+            # Clear learning sessions
+            cursor.execute("DELETE FROM learning_sessions")
+            
+            # Don't clear subjects_scripts table as that's structural metadata
+            
+            # Update topic progress with zeros
+            # Refresh topic progress table with current topics but zero progress
+            topics = self.data_manager.get_all_topics()
+            for topic in topics:
+                # Count questions for this topic
+                count = 0
+                for q in self.data_manager.get_all_questions().values():
+                    if topic in q.get('topics', []):
+                        count += 1
+                
+                # Insert or update topic in topic_progress
+                cursor.execute(
+                    """
+                    INSERT OR REPLACE INTO topic_progress 
+                    (topic_name, total_questions, correct_answers, mastery_percentage)
+                    VALUES (?, ?, 0, 0)
+                    """,
+                    (topic, count)
+                )
+            
+            self.data_manager.conn.commit()
+    
+    def _open_questions_folder(self):
+        """Open the questions folder in file explorer."""
+        folder_path = os.path.join(self.data_manager.base_dir, 'data', 'questions')
         
-        if success:
-            messagebox.showinfo("Backup Created", message)
-        else:
-            messagebox.showerror("Backup Failed", message)
+        # Ensure the folder exists
+        os.makedirs(folder_path, exist_ok=True)
+        
+        # Open folder based on operating system
+        try:
+            if platform.system() == 'Windows':
+                os.startfile(folder_path)
+            elif platform.system() == 'Darwin':  # macOS
+                subprocess.Popen(['open', folder_path])
+            else:  # Linux and other Unix-like
+                subprocess.Popen(['xdg-open', folder_path])
+                
+            logger.info(f"Opened questions folder: {folder_path}")
+            
+        except Exception as e:
+            logger.error(f"Error opening questions folder: {e}", exc_info=True)
+            messagebox.showerror("Error", 
+                              f"Could not open folder: {str(e)}\n\nPath: {folder_path}")
+    
+    def _delete_all_questions(self):
+        """Delete all questions from the questions folder."""
+        if messagebox.askyesno("Delete All Questions",
+                             "Are you sure you want to delete ALL question files?\n\n"
+                             "This will remove all question files from the questions folder. "
+                             "This action cannot be undone.",
+                             icon='warning'):
+            try:
+                folder_path = os.path.join(self.data_manager.base_dir, 'data', 'questions')
+                
+                # Get list of question files
+                files = [f for f in os.listdir(folder_path) if f.endswith('.json')]
+                
+                if not files:
+                    messagebox.showinfo("No Questions", 
+                                      "No question files found in the questions folder.")
+                    return
+                
+                # Delete each file
+                for file in files:
+                    file_path = os.path.join(folder_path, file)
+                    os.remove(file_path)
+                
+                # Clear the questions cache and reload data
+                self.data_manager.refresh_all_data()
+                
+                # Notify main window to refresh UI components
+                self._notify_main_window_refresh()
+                
+                messagebox.showinfo("Questions Deleted", 
+                                 f"Successfully deleted {len(files)} question files.")
+                
+                logger.info(f"Deleted {len(files)} question files from {folder_path}")
+                
+            except Exception as e:
+                logger.error(f"Error deleting questions: {e}", exc_info=True)
+                messagebox.showerror("Delete Error", 
+                                  f"An error occurred while deleting questions: {str(e)}")
+                
+    def _notify_main_window_refresh(self):
+        """Notify the main window to refresh UI components."""
+        # Find the main window instance
+        parent = self
+        while parent.master:
+            parent = parent.master
+            if hasattr(parent, '_update_home_screen'):
+                # If this is the main window, refresh its UI
+                parent._update_home_screen()
+                parent._load_topics()
+                parent._load_subjects_and_scripts()
+                break
+    
+    def _backup_database(self):
+        """Create a backup of the database."""
+        try:
+            # Use the DataManager's backup function
+            file_path = filedialog.asksaveasfilename(
+                title="Backup Database",
+                defaultextension=".db",
+                filetypes=[("Database files", "*.db"), ("All files", "*.*")]
+            )
+            
+            if not file_path:
+                return
+                
+            success, message, backup_path = self.data_manager.backup_database(file_path)
+            
+            if success:
+                messagebox.showinfo("Backup Successful", message)
+            else:
+                messagebox.showerror("Backup Failed", message)
+                
+        except Exception as e:
+            logger.error(f"Error backing up database: {e}", exc_info=True)
+            messagebox.showerror("Backup Error", 
+                              f"An error occurred while backing up the database: {str(e)}")

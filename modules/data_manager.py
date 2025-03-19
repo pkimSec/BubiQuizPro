@@ -1,4 +1,65 @@
-#!/usr/bin/env python3
+def refresh_all_data(self):
+        """
+        Refresh all cached data and database info.
+        Call this after questions are added or removed.
+        """
+        # Clear caches
+        self._questions_cache = {}
+        self._topics_cache = set()
+        self._sources_cache = set()
+        
+        # Reload questions from files
+        self.load_all_questions()
+        
+        # Update the database topic entries
+        with self.conn_lock:
+            cursor = self.conn.cursor()
+            
+            # Get current topics from question files
+            current_topics = self._topics_cache
+            
+            # Get topics from database
+            cursor.execute("SELECT topic_name FROM topic_progress")
+            db_topics = {row[0] for row in cursor.fetchall()}
+            
+            # Remove topics that no longer exist
+            for topic in db_topics - current_topics:
+                cursor.execute("DELETE FROM topic_progress WHERE topic_name = ?", (topic,))
+            
+            # Add new topics
+            for topic in current_topics:
+                # Count questions for this topic
+                count = sum(1 for q in self._questions_cache.values() 
+                           if topic in q.get('topics', []))
+                
+                # Insert or update topic
+                cursor.execute(
+                    """
+                    INSERT OR REPLACE INTO topic_progress 
+                    (topic_name, total_questions, correct_answers, mastery_percentage)
+                    VALUES (?, ?, 0, 0)
+                    """,
+                    (topic, count)
+                )
+            
+            # Clean up subjects_scripts table
+            cursor.execute("DELETE FROM subjects_scripts")
+            
+            # Re-populate subjects_scripts if needed
+            for q in self._questions_cache.values():
+                if 'source_reference' in q:
+                    parts = q['source_reference'].split(',')[0].split()
+                    if len(parts) >= 2:
+                        subject = parts[0]
+                        script = ' '.join(parts[1:])
+                        cursor.execute(
+                            "INSERT OR IGNORE INTO subjects_scripts (subject_name, script_name) VALUES (?, ?)",
+                            (subject, script)
+                        )
+            
+            self.conn.commit()
+            
+        logger.info("All data refreshed")#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 BubiQuizPro - Data Management Module
@@ -341,7 +402,7 @@ class DataManager:
         """
         return self._sources_cache
     
-    def get_filtered_questions(self, topics=None, difficulty=None, source=None, subject=None, script=None):
+    def get_filtered_questions(self, topics=None, difficulty=None, source=None, subject=None, script=None, question_type=None):
         """
         Get questions filtered by various criteria.
         
@@ -351,11 +412,19 @@ class DataManager:
             source (str, optional): Source to filter by
             subject (str, optional): Subject to filter by
             script (str, optional): Script to filter by
+            question_type (str, optional): Type of question to filter by ('multiple_choice' or 'text')
             
         Returns:
             dict: Dictionary of filtered questions indexed by ID
         """
         filtered = {}
+        
+        # Map common German difficulty terms to standardize
+        difficulty_mapping = {
+            "leicht": ["leicht", "einfach", "easy"],
+            "mittel": ["mittel", "medium", "average"],
+            "schwer": ["schwer", "hard", "difficult"]
+        }
         
         for q_id, question in self._questions_cache.items():
             # Apply topic filter
@@ -363,18 +432,38 @@ class DataManager:
                 continue
                 
             # Apply difficulty filter
-            if difficulty and question.get('difficulty') != difficulty:
+            if difficulty:
+                question_difficulty = question.get('difficulty', '').lower()
+                
+                # Check if there's a match in any of the mapped terms
+                match_found = False
+                for standard_diff, variations in difficulty_mapping.items():
+                    if (difficulty.lower() == standard_diff and 
+                        question_difficulty in variations):
+                        match_found = True
+                        break
+                
+                if not match_found and question_difficulty != difficulty.lower():
+                    continue
+            
+            # Apply question type filter
+            if question_type and question.get('type') != question_type:
                 continue
                 
             # Apply source filter
-            metadata = question.get('metadata', {})
-            q_source = metadata.get('source', '')
-            if source and q_source != source:
+            source_ref = question.get('source_reference', '')
+            metadata_source = ''
+            
+            # Check metadata for source if available
+            if 'metadata' in question:
+                metadata_source = question['metadata'].get('source', '')
+            
+            if source and not (source in source_ref or source in metadata_source):
                 continue
                 
             # Apply subject and script filters
             if subject or script:
-                source_parts = q_source.split()
+                source_parts = source_ref.split()
                 q_subject = source_parts[0] if len(source_parts) >= 1 else ''
                 q_script = ' '.join(source_parts[1:]) if len(source_parts) >= 2 else ''
                 

@@ -55,8 +55,8 @@ class QuestionFrame(ttk.Frame):
         # Quiz info label
         self.quiz_info_var = tk.StringVar(value="Quiz in Progress")
         self.quiz_info_label = ttk.Label(self.header_frame, 
-                                      textvariable=self.quiz_info_var,
-                                      font=('Arial', 14, 'bold'))
+                                    textvariable=self.quiz_info_var,
+                                    font=('Arial', 14, 'bold'))
         self.quiz_info_label.pack(side='left')
         
         # Progress indicators
@@ -65,12 +65,12 @@ class QuestionFrame(ttk.Frame):
         
         self.progress_var = tk.StringVar(value="Question 0/0")
         self.progress_label = ttk.Label(self.progress_frame, 
-                                      textvariable=self.progress_var)
+                                    textvariable=self.progress_var)
         self.progress_label.pack(side='left', padx=10)
         
         self.time_var = tk.StringVar(value="Time: 00:00")
         self.time_label = ttk.Label(self.progress_frame, 
-                                  textvariable=self.time_var)
+                                textvariable=self.time_var)
         self.time_label.pack(side='left', padx=10)
         
         # Progress bar
@@ -87,10 +87,10 @@ class QuestionFrame(ttk.Frame):
         # Question text
         self.question_var = tk.StringVar()
         self.question_label = ttk.Label(self.question_frame, 
-                                     textvariable=self.question_var,
-                                     font=('Arial', 12), 
-                                     wraplength=800,
-                                     justify='left')
+                                    textvariable=self.question_var,
+                                    font=('Arial', 12), 
+                                    wraplength=800,
+                                    justify='left')
         self.question_label.grid(row=0, column=0, sticky='w', pady=(0, 20))
         
         # Create frames for different question types
@@ -102,12 +102,12 @@ class QuestionFrame(ttk.Frame):
         self.buttons_frame.grid(row=3, column=0, sticky='ew', padx=20, pady=20)
         
         self.submit_btn = ttk.Button(self.buttons_frame, text="Submit", 
-                                   command=self._submit_answer)
+                                command=self._submit_answer)
         self.submit_btn.pack(side='right', padx=5)
         
         self.next_btn = ttk.Button(self.buttons_frame, text="Next Question", 
-                                 command=self._next_question,
-                                 state='disabled')
+                                command=self._next_question,
+                                state='disabled')
         self.next_btn.pack(side='right', padx=5)
         
         self.quit_btn = ttk.Button(self.buttons_frame, text="End Quiz", 
@@ -121,14 +121,14 @@ class QuestionFrame(ttk.Frame):
         
         self.result_var = tk.StringVar()
         self.result_label = ttk.Label(self.feedback_frame, 
-                                   textvariable=self.result_var,
-                                   font=('Arial', 12, 'bold'))
+                                textvariable=self.result_var,
+                                font=('Arial', 12, 'bold'))
         self.result_label.pack(anchor='w', pady=5)
         
         self.correct_answer_var = tk.StringVar()
         self.correct_answer_label = ttk.Label(self.feedback_frame, 
-                                           textvariable=self.correct_answer_var,
-                                           wraplength=800)
+                                        textvariable=self.correct_answer_var,
+                                        wraplength=800)
         self.correct_answer_label.pack(anchor='w', pady=5)
         
         self.explanation_var = tk.StringVar()
@@ -138,14 +138,22 @@ class QuestionFrame(ttk.Frame):
                                         justify='left')
         self.explanation_label.pack(anchor='w', pady=5)
         
+        # Add source reference label (NEW)
+        self.source_var = tk.StringVar()
+        self.source_label = ttk.Label(self.feedback_frame,
+                                    textvariable=self.source_var,
+                                    wraplength=800,
+                                    font=('Arial', 9, 'italic'))
+        self.source_label.pack(anchor='w', pady=5)
+        
         # Status frame at the bottom
         self.status_frame = ttk.Frame(self, style='StatusBar.TFrame')
         self.status_frame.grid(row=5, column=0, sticky='ew', padx=0, pady=(10, 0))
         
         self.status_var = tk.StringVar(value="Ready to start quiz")
         self.status_label = ttk.Label(self.status_frame, 
-                                   textvariable=self.status_var,
-                                   style='StatusBar.TLabel')
+                                textvariable=self.status_var,
+                                style='StatusBar.TLabel')
         self.status_label.pack(side='left', padx=10)
     
     def _create_multiple_choice_frame(self):
@@ -367,6 +375,11 @@ class QuestionFrame(ttk.Frame):
         # Show the feedback frame
         self.feedback_frame.grid()
         
+        # Clear all feedback variables first to ensure no previous content remains
+        self.correct_answer_var.set("")
+        self.explanation_var.set("")
+        self.source_var.set("")
+        
         # Set result text and color
         if result.get('is_correct'):
             self.result_var.set("Correct!")
@@ -375,29 +388,24 @@ class QuestionFrame(ttk.Frame):
             self.result_var.set("Incorrect")
             self.result_label.config(foreground='red')
             
-            # Show correct answer
+            # Show correct answer only for incorrect responses
             self.correct_answer_var.set(f"Correct answer: {result.get('correct_answer', '')}")
         
         # Show explanation if available
         explanation = result.get('explanation', '')
         if explanation:
             self.explanation_var.set(f"Explanation: {explanation}")
-        else:
-            self.explanation_var.set("")
-            
-        # Get and display source reference (first from result, then from current question as backup)
+        
+        # Get and display source reference
         source_ref = result.get('source_reference', '')
         
         # If not in result, try to get it directly from the question
-        if not source_ref:
-            current_question = self.quiz_engine.get_current_question()
-            if current_question:
-                source_ref = current_question.get('source_reference', '')
+        if not source_ref and self.current_question:
+            source_ref = self.current_question.get('source_reference', '')
         
         if source_ref:
             self.source_var.set(f"Source: {source_ref}")
-        else:
-            self.source_var.set("")
+    
     
     def _next_question(self):
         """Move to the next question."""
@@ -408,6 +416,16 @@ class QuestionFrame(ttk.Frame):
         self.answer_submitted = False
         self.submit_btn.config(state='normal')
         self.next_btn.config(state='disabled')
+        
+        # Clear previous answers - ensure text entry is cleared
+        self.text_entry.delete('1.0', tk.END)
+        self.mc_var.set(-1)
+        
+        # Clear feedback variables explicitly
+        self.result_var.set("")
+        self.correct_answer_var.set("")
+        self.explanation_var.set("")
+        self.source_var.set("")
         
         # Update progress information
         progress = self.quiz_engine.get_session_progress()
@@ -428,7 +446,7 @@ class QuestionFrame(ttk.Frame):
             self._end_quiz()
         
         logger.debug("Moved to next question")
-    
+
     def _end_quiz(self):
         """End the current quiz and show results."""
         # Stop timer if running

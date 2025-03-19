@@ -40,7 +40,7 @@ class QuizEngine:
         logger.info("QuizEngine initialized")
     
     def start_session(self, mode="normal", topics=None, difficulty=None, 
-                    source=None, subject=None, script=None, 
+                    source=None, subject=None, script=None, question_type=None,
                     question_count=10, time_limit=None):
         """
         Start a new quiz session.
@@ -52,6 +52,7 @@ class QuizEngine:
             source (str): Source filter
             subject (str): Subject filter
             script (str): Script filter
+            question_type (str): Type of question to filter ("multiple_choice" or "text")
             question_count (int): Number of questions
             time_limit (int): Time limit in minutes (None for no limit)
             
@@ -70,6 +71,7 @@ class QuizEngine:
             "source": source,
             "subject": subject,
             "script": script,
+            "question_type": question_type,
             "question_count": question_count,
             "time_limit": time_limit,
             "start_time": time.time(),
@@ -81,24 +83,24 @@ class QuizEngine:
         # Select questions based on mode
         if mode == "normal":
             self.session_questions = self._select_normal_questions(
-                topics, difficulty, source, subject, script, question_count
+                topics, difficulty, source, subject, script, question_type, question_count
             )
         elif mode == "weak_spots":
             self.session_questions = self._select_weak_spot_questions(
-                topics, difficulty, source, subject, script, question_count
+                topics, difficulty, source, subject, script, question_type, question_count
             )
         elif mode == "spaced_repetition":
             self.session_questions = self._select_spaced_repetition_questions(
-                topics, difficulty, source, subject, script, question_count
+                topics, difficulty, source, subject, script, question_type, question_count
             )
         elif mode == "exam":
             self.session_questions = self._select_exam_questions(
-                topics, difficulty, source, subject, script, question_count
+                topics, difficulty, source, subject, script, question_type, question_count
             )
         else:
             logger.warning(f"Unknown session mode: {mode}, falling back to normal mode")
             self.session_questions = self._select_normal_questions(
-                topics, difficulty, source, subject, script, question_count
+                topics, difficulty, source, subject, script, question_type, question_count
             )
         
         # Reset session results
@@ -115,12 +117,12 @@ class QuizEngine:
         
         return session_info
     
-    def _select_normal_questions(self, topics, difficulty, source, subject, script, count):
+    def _select_normal_questions(self, topics, difficulty, source, subject, script, question_type, count):
         """
         Select questions for normal mode.
         
         Args:
-            topics, difficulty, source, subject, script: Filters
+            topics, difficulty, source, subject, script, question_type: Filters
             count (int): Number of questions to select
             
         Returns:
@@ -128,8 +130,19 @@ class QuizEngine:
         """
         # Get filtered questions
         filtered = self.data_manager.get_filtered_questions(
-            topics, difficulty, source, subject, script
+            topics, difficulty, source, subject, script, question_type
         )
+        
+        # Log the filter criteria and results for debugging
+        filter_info = {
+            "topics": topics,
+            "difficulty": difficulty,
+            "source": source,
+            "subject": subject,
+            "script": script,
+            "question_type": question_type
+        }
+        logger.debug(f"Question filters: {filter_info}, Found: {len(filtered)} questions")
         
         # Randomize and limit to count
         question_ids = list(filtered.keys())
@@ -137,12 +150,12 @@ class QuizEngine:
         
         return question_ids[:min(count, len(question_ids))]
     
-    def _select_weak_spot_questions(self, topics, difficulty, source, subject, script, count):
+    def _select_weak_spot_questions(self, topics, difficulty, source, subject, script, question_type, count):
         """
         Select questions focusing on weak spots (frequently missed questions).
         
         Args:
-            topics, difficulty, source, subject, script: Filters
+            topics, difficulty, source, subject, script, question_type: Filters
             count (int): Number of questions to select
             
         Returns:
@@ -150,7 +163,7 @@ class QuizEngine:
         """
         # Get filtered questions
         filtered = self.data_manager.get_filtered_questions(
-            topics, difficulty, source, subject, script
+            topics, difficulty, source, subject, script, question_type
         )
         
         # Get progress data
@@ -181,12 +194,12 @@ class QuizEngine:
         # Select the lowest scoring questions
         return [q[0] for q in question_scores[:min(count, len(question_scores))]]
     
-    def _select_spaced_repetition_questions(self, topics, difficulty, source, subject, script, count):
+    def _select_spaced_repetition_questions(self, topics, difficulty, source, subject, script, question_type, count):
         """
         Select questions due for review based on spaced repetition algorithm.
         
         Args:
-            topics, difficulty, source, subject, script: Filters
+            topics, difficulty, source, subject, script, question_type: Filters
             count (int): Number of questions to select
             
         Returns:
@@ -197,7 +210,7 @@ class QuizEngine:
         
         # Filter by criteria
         filtered = self.data_manager.get_filtered_questions(
-            topics, difficulty, source, subject, script
+            topics, difficulty, source, subject, script, question_type
         )
         
         # Intersect the sets
@@ -212,12 +225,12 @@ class QuizEngine:
         random.shuffle(eligible_questions)
         return eligible_questions[:min(count, len(eligible_questions))]
     
-    def _select_exam_questions(self, topics, difficulty, source, subject, script, count):
+    def _select_exam_questions(self, topics, difficulty, source, subject, script, question_type, count):
         """
         Select questions for exam mode - comprehensive coverage of topics.
         
         Args:
-            topics, difficulty, source, subject, script: Filters
+            topics, difficulty, source, subject, script, question_type: Filters
             count (int): Number of questions to select
             
         Returns:
@@ -225,7 +238,7 @@ class QuizEngine:
         """
         # Get filtered questions
         filtered = self.data_manager.get_filtered_questions(
-            topics, difficulty, source, subject, script
+            topics, difficulty, source, subject, script, question_type
         )
         
         # Group by topics to ensure coverage
